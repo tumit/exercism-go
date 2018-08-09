@@ -1,27 +1,23 @@
 package isogram
 
-import (
-	"strings"
-)
+import "strings"
 
 var ignores = "- "
 
-func isNotIgnore(r rune) bool {
-	return strings.IndexRune(ignores, r) < 0
-}
-
-func isRepeat(s string, r rune) bool {
-	firstIndex := strings.IndexRune(s, r)
-	return strings.IndexRune(s[firstIndex+1:len(s)], r) > -1
+func removeIgnoreString(s string) string {
+	for _, ignore := range ignores {
+		s = strings.Replace(s, string(ignore), "", -1)
+	}
+	return s
 }
 
 // IsIsogram it return is isogram
 func IsIsogram(s string) bool {
 
-	s = strings.ToUpper(s)
+	s = strings.ToUpper(removeIgnoreString(s))
 
 	for _, r := range s {
-		if isNotIgnore(r) && isRepeat(s, r) {
+		if strings.Count(s, string(r)) != 1 {
 			return false
 		}
 	}
