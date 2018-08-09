@@ -1,18 +1,8 @@
 package scrabble
 
-import "strings"
-
-// Score it return score of scrabble
-func Score(input string) int {
-
-	sum := 0
-
-	for _, c := range input {
-		sum = sum + aScore(strings.ToUpper(string(c)))
-	}
-
-	return sum
-}
+import (
+	"unicode"
+)
 
 type strScore struct {
 	str   string
@@ -29,13 +19,27 @@ var strScores = []strScore{
 	{"QZ", 10},
 }
 
-func aScore(s string) int {
-
+func makeScoreMap(strScores []strScore) map[rune]int {
+	m := make(map[rune]int)
 	for _, strScore := range strScores {
-		if strings.Contains(strScore.str, s) {
-			return strScore.score
+		for _, str := range strScore.str {
+			m[unicode.ToLower(str)] = strScore.score
+			m[unicode.ToUpper(str)] = strScore.score
 		}
 	}
+	return m
+}
 
-	return 0
+var scoreMap = makeScoreMap(strScores)
+
+// Score it return score of scrabble
+func Score(input string) int {
+
+	sum := 0
+
+	for _, c := range input {
+		sum = sum + scoreMap[c]
+	}
+
+	return sum
 }
