@@ -18,6 +18,12 @@ var sharpNoteMap = makeMap(sharpNotes)
 var flatNotes = []string{"A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab"}
 var flatNoteMap = makeMap(flatNotes)
 
+var intervalMap = map[rune]int{
+	'A': 3,
+	'M': 2,
+	'm': 1,
+}
+
 func makeBoolMap(notes []string) map[string]bool {
 	m := make(map[string]bool)
 	for _, n := range notes {
@@ -45,13 +51,7 @@ func Scale(tonic, interval string) []string {
 		count := 0
 		for i, v := range interval {
 			intervalScale[i] = scale[count]
-			if v == 'M' {
-				count += 2
-			} else if v == 'A' {
-				count += 3
-			} else {
-				count++
-			}
+			count += intervalMap[v]
 		}
 		return intervalScale
 	}
