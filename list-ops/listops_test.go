@@ -3,6 +3,43 @@ package listops
 import "reflect"
 import "testing"
 
+type binFunc func(int, int) int
+type predFunc func(int) bool
+type unaryFunc func(int) int
+type IntList []int
+
+func (list IntList) Foldr(fn binFunc, initial int) int {
+	return 0
+}
+
+func (list IntList) Foldl(fn binFunc, initial int) int {
+	return 0
+}
+
+func (list IntList) Filter(fn predFunc) IntList {
+	return list
+}
+
+func (list IntList) Length() int {
+	return 0
+}
+
+func (list IntList) Map(fn unaryFunc) IntList {
+	return list
+}
+
+func (list IntList) Reverse() IntList {
+	return list
+}
+
+func (list IntList) Append(append IntList) IntList {
+	return list
+}
+
+func (list IntList) Concat(lists []IntList) IntList {
+	return list
+}
+
 var foldTestCases = []struct {
 	name     string
 	property string
