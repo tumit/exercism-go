@@ -9,35 +9,72 @@ type unaryFunc func(int) int
 type IntList []int
 
 func (list IntList) Foldr(fn binFunc, initial int) int {
-	return 0
+	fold := initial
+	for i := range list {
+		fold = fn(list[len(list)-1-i], fold)
+	}
+	return fold
 }
 
 func (list IntList) Foldl(fn binFunc, initial int) int {
-	return 0
+	fold := initial
+	for _, v := range list {
+		fold = fn(fold, v)
+	}
+	return fold
 }
 
 func (list IntList) Filter(fn predFunc) IntList {
-	return list
+	l := make(IntList, 0)
+	for _, v := range list {
+		if fn(v) {
+			l = append(l, v)
+		}
+	}
+	return l
 }
 
 func (list IntList) Length() int {
-	return 0
+	return len(list)
 }
 
 func (list IntList) Map(fn unaryFunc) IntList {
-	return list
+	l := make(IntList, len(list))
+	for i, v := range list {
+		l[i] = fn(v)
+	}
+	return l
 }
 
 func (list IntList) Reverse() IntList {
-	return list
+	l := make(IntList, len(list))
+	for i := range list {
+		l[i] = list[len(list)-1-i]
+	}
+	return l
 }
 
 func (list IntList) Append(append IntList) IntList {
-	return list
+	l := make(IntList, len(list)+len(append))
+	i := 0
+	for _, v := range list {
+		l[i] = v
+		i++
+	}
+	for _, v := range append {
+		l[i] = v
+		i++
+	}
+	return l
 }
 
 func (list IntList) Concat(lists []IntList) IntList {
-	return list
+	l := make(IntList, 0)
+	l = l.Append(list)
+	for _, other := range lists {
+		l = l.Append(other)
+	}
+	return l
 }
 
 var foldTestCases = []struct {
