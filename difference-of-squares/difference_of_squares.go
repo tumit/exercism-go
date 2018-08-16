@@ -1,13 +1,9 @@
 package diffsquares
 
-import (
-	"math"
-)
-
 // SquareOfSums it return square of sums
 func SquareOfSums(n int) int {
 	sum := (n * (1 + n)) / 2
-	return int(math.Pow(float64(sum), float64(2)))
+	return sum * sum
 }
 
 // SumOfSquares it return sum of squares
