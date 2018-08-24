@@ -1,18 +1,8 @@
 package luhn
 
 import (
-	"strconv"
 	"strings"
-	"unicode"
-	"unicode/utf8"
 )
-
-func rToi(r rune) int {
-	buf := make([]byte, 1)
-	_ = utf8.EncodeRune(buf, r)
-	tmp, _ := strconv.Atoi(string(buf))
-	return tmp
-}
 
 // Valid it return valid status of data
 func Valid(s string) bool {
@@ -24,31 +14,30 @@ func Valid(s string) bool {
 	}
 
 	sum := 0
+	mod := len(s) % 2
 
-	rs := []rune(s)
+	for i, r := range s {
 
-	for i := 0; i < len(rs); i++ {
+		v, b := r2i(r)
 
-		r := rs[len(rs)-1-i]
-		if unicode.IsNumber(r) {
-			v := rToi(r)
-			if i%2 == 1 {
-				v *= 2
-				if v > 9 {
-					v -= 9
-				}
-			}
-			sum += v
-		} else {
-			sum = -1
-			break
+		if !b {
+			return false
 		}
-	}
 
-	if sum == -1 {
-		return false
+		if i%2 == mod {
+			v *= 2
+			if v > 9 {
+				v -= 9
+			}
+		}
+
+		sum += v
 	}
 
 	return sum%10 == 0
+}
 
+func r2i(r rune) (int, bool) {
+	n := int(r - '0')
+	return n, 0 <= n && n <= 9
 }
