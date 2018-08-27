@@ -1,28 +1,52 @@
-// This is a "stub" file.  It's a little start on your solution.
-// It's not a complete solution though; you have to write some code.
-
-// Package triangle should have a package comment that summarizes what it's about.
-// https://golang.org/doc/effective_go.html#commentary
 package triangle
 
-
-// Notice KindFromSides() returns this type. Pick a suitable data type.
-type Kind
-
-const (
-    // Pick values for the following identifiers used by the test program.
-    NaT // not a triangle
-    Equ // equilateral
-    Iso // isosceles
-    Sca // scalene
+import (
+	"math"
+	"sort"
 )
 
-// KindFromSides should have a comment documenting it.
+// Kind is a type of triangle
+type Kind int
+
+const (
+	// NaT is not a triangle
+	NaT Kind = 0
+	// Equ is equilateral
+	Equ Kind = 1
+	// Iso is isosceles
+	Iso Kind = 2
+	// Sca scalene
+	Sca Kind = 3
+)
+
+// KindFromSides it return kind of triangle
 func KindFromSides(a, b, c float64) Kind {
-	// Write some code here to pass the test suite.
-	// Then remove all the stock comments.
-	// They're here to help you get started but they only clutter a finished solution.
-	// If you leave them in, reviewers may protest!
-	var k Kind
-	return k
+
+	s := []float64{a, b, c}
+
+	for _, v := range s {
+		if v <= 0 || math.IsNaN(v) || v > math.MaxFloat64 {
+			return NaT
+		}
+	}
+
+	sort.Float64s(s)
+
+	if s[0]+s[1] < s[2] {
+		return NaT
+	}
+
+	if s[0] == s[1] && s[0] == s[2] && s[1] == s[2] {
+		return Equ
+	}
+
+	if s[0] == s[1] || s[0] == s[2] || s[1] == s[2] {
+		return Iso
+	}
+
+	if s[0] != s[1] && s[0] != s[2] && s[1] != s[2] {
+		return Sca
+	}
+
+	return NaT
 }
