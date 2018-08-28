@@ -2,7 +2,6 @@ package grains
 
 import (
 	"fmt"
-	"math"
 )
 
 // Square it return calculate the number of grains of wheat on a chessboard
@@ -20,7 +19,8 @@ func Square(i int) (uint64, error) {
 		return 0, fmt.Errorf("square greater than 64 returns an error")
 	}
 
-	return uint64(math.Pow(2.0, float64(i-1))), nil
+	return 1 << uint64(i-1), nil
+	// return uint64(math.Pow(2.0, float64(i-1))), nil
 }
 
 // Total it return total of grains of wheat on a chessboard
