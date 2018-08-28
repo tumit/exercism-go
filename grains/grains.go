@@ -25,10 +25,6 @@ func Square(i int) (uint64, error) {
 
 // Total it return total of grains of wheat on a chessboard
 func Total() uint64 {
-	var sum uint64
-	for i := 1; i <= 64; i++ {
-		v, _ := Square(i)
-		sum = sum + v
-	}
-	return sum
+	v, _ := Square(65)
+	return v - 1
 }
